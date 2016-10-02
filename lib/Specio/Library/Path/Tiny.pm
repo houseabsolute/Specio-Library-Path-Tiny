@@ -207,14 +207,14 @@ call to C<< $path->realpath >>.
 =head2 Dir
 
 A L<Path::Tiny> object which is a directory on disk according to C<<
-$path->is_file >>.
+$path->is_dir >>.
 
 Will be coerced from a string or arrayref via C<Path::Tiny::path>.
 
 =head2 AbsDir
 
 A L<Path::Tiny> object which is a directory on disk according to C<<
-$path->is_file >> where C<< $path->is_absolute >> returns true.
+$path->is_dir >> where C<< $path->is_absolute >> returns true.
 
 Will be coerced from a string or arrayref via C<Path::Tiny::path> followed by
 call to C<< $path->absolute >>.
@@ -222,7 +222,7 @@ call to C<< $path->absolute >>.
 =head2 RealDir
 
 A L<Path::Tiny> object which is a directory on disk according to C<<
-$path->is_file >> where C<< $path->realpath eq $path >>.
+$path->is_dir >> where C<< $path->realpath eq $path >>.
 
 Will be coerced from a string or arrayref via C<Path::Tiny::path> followed by
 call to C<< $path->realpath >>.
