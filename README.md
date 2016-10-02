@@ -64,20 +64,20 @@ call to `$path->realpath`.
 
 ## Dir
 
-A [Path::Tiny](https://metacpan.org/pod/Path::Tiny) object which is a directory on disk according to `$path->is_file`.
+A [Path::Tiny](https://metacpan.org/pod/Path::Tiny) object which is a directory on disk according to `$path->is_dir`.
 
 Will be coerced from a string or arrayref via `Path::Tiny::path`.
 
 ## AbsDir
 
-A [Path::Tiny](https://metacpan.org/pod/Path::Tiny) object which is a directory on disk according to `$path->is_file` where `$path->is_absolute` returns true.
+A [Path::Tiny](https://metacpan.org/pod/Path::Tiny) object which is a directory on disk according to `$path->is_dir` where `$path->is_absolute` returns true.
 
 Will be coerced from a string or arrayref via `Path::Tiny::path` followed by
 call to `$path->absolute`.
 
 ## RealDir
 
-A [Path::Tiny](https://metacpan.org/pod/Path::Tiny) object which is a directory on disk according to `$path->is_file` where `$path->realpath eq $path`.
+A [Path::Tiny](https://metacpan.org/pod/Path::Tiny) object which is a directory on disk according to `$path->is_dir` where `$path->realpath eq $path`.
 
 Will be coerced from a string or arrayref via `Path::Tiny::path` followed by
 call to `$path->realpath`.
