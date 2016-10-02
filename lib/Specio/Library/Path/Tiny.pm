@@ -3,7 +3,7 @@ package Specio::Library::Path::Tiny;
 use strict;
 use warnings;
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 use Path::Tiny;
 use Specio 0.28 ();
