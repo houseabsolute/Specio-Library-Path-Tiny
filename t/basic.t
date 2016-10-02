@@ -13,6 +13,7 @@ use Specio::Library::Path::Tiny;
 
 my $can_symlink = do {
     local $@ = undef;
+    ## no critic (ErrorHandling::RequireCheckingReturnValueOfEval, InputOutput::RequireCheckedSyscalls)
     eval { symlink( q{}, q{} ); 1 };
 };
 
