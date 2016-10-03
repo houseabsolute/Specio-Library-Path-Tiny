@@ -1,4 +1,4 @@
-requires "Path::Tiny" => "0";
+requires "Path::Tiny" => "0.087";
 requires "Specio" => "0.28";
 requires "Specio::Declare" => "0";
 requires "Specio::Exporter" => "0";

@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.02     2016-10-02
+
 - Fix code for Perl 5.8.8
 
 - Require Path::Tiny 0.087+ to ensure that tests pass.

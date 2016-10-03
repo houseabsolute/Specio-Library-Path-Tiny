@@ -4,7 +4,7 @@ Specio::Library::Path::Tiny - Path::Tiny types and coercions for Specio
 
 # VERSION
 
-version 0.01
+version 0.02
 
 # SYNOPSIS
 
