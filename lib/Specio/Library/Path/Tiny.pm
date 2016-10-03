@@ -136,14 +136,16 @@ for my $type ( map { t($_) } qw( AbsPath AbsFile AbsDir ) ) {
 
     coerce(
         $type,
-        from   => t('Str'),
-        inline => sub { sprintf( 'Path::Tiny::path( %s )->absolute', $_[1] ) },
+        from => t('Str'),
+        inline =>
+            sub { sprintf( 'Path::Tiny::path( %s )->absolute', $_[1] ) },
     );
 
     coerce(
         $type,
-        from   => t('ArrayRef'),
-        inline => sub { sprintf( 'Path::Tiny::path( @{ %s } )->absolute', $_[1] ) },
+        from => t('ArrayRef'),
+        inline =>
+            sub { sprintf( 'Path::Tiny::path( @{ %s } )->absolute', $_[1] ) },
     );
 }
 
@@ -156,14 +158,16 @@ for my $type ( map { t($_) } qw( RealPath RealFile RealDir ) ) {
 
     coerce(
         $type,
-        from   => t('Str'),
-        inline => sub { sprintf( 'Path::Tiny::path( %s )->realpath', $_[1] ) },
+        from => t('Str'),
+        inline =>
+            sub { sprintf( 'Path::Tiny::path( %s )->realpath', $_[1] ) },
     );
 
     coerce(
         $type,
-        from   => t('ArrayRef'),
-        inline => sub { sprintf( 'Path::Tiny::path( @{ %s } )->realpath', $_[1] ) },
+        from => t('ArrayRef'),
+        inline =>
+            sub { sprintf( 'Path::Tiny::path( @{ %s } )->realpath', $_[1] ) },
     );
 }
 
