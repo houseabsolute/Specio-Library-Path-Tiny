@@ -316,6 +316,28 @@ my @cases = (
         input => [qw/foo bar/],
     },
 
+    # RealPath
+    {
+        label => 'coerce string to RealPath',
+        type  => t('RealPath'),
+        input => './foo',
+    },
+    {
+        label => 'coerce Path to RealPath',
+        type  => t('RealPath'),
+        input => path($tempfile),
+    },
+    {
+        label => 'coerce object to RealPath',
+        type  => t('RealPath'),
+        input => $tempfile,
+    },
+    {
+        label => 'coerce array ref to RealPath',
+        type  => t('RealPath'),
+        input => [qw/. foo/],
+    },
+
     # File
     {
         label => 'coerce string to File',
@@ -330,6 +352,40 @@ my @cases = (
     {
         label => 'coerce array ref to File',
         type  => t('File'),
+        input => [$tempfile],
+    },
+
+    # AbsFile
+    {
+        label => 'coerce string to AbsFile',
+        type  => t('AbsFile'),
+        input => "$tempfile",
+    },
+    {
+        label => 'coerce object to AbsFile',
+        type  => t('AbsFile'),
+        input => $tempfile,
+    },
+    {
+        label => 'coerce array ref to AbsFile',
+        type  => t('AbsFile'),
+        input => [$tempfile],
+    },
+
+    # RealFile
+    {
+        label => 'coerce string to RealFile',
+        type  => t('RealFile'),
+        input => "$tempfile",
+    },
+    {
+        label => 'coerce object to RealFile',
+        type  => t('RealFile'),
+        input => $tempfile,
+    },
+    {
+        label => 'coerce array ref to RealFile',
+        type  => t('RealFile'),
         input => [$tempfile],
     },
 
@@ -350,23 +406,6 @@ my @cases = (
         input => [$tempdir],
     },
 
-    # AbsFile
-    {
-        label => 'coerce string to AbsFile',
-        type  => t('AbsFile'),
-        input => "$tempfile",
-    },
-    {
-        label => 'coerce object to AbsFile',
-        type  => t('AbsFile'),
-        input => $tempfile,
-    },
-    {
-        label => 'coerce array ref to AbsFile',
-        type  => t('AbsFile'),
-        input => [$tempfile],
-    },
-
     # AbsDir
     {
         label => 'coerce string to AbsDir',
@@ -383,6 +422,23 @@ my @cases = (
         type  => t('AbsDir'),
         input => [$tempdir],
     },
+
+    # RealDir
+    {
+        label => 'coerce string to RealDir',
+        type  => t('RealDir'),
+        input => "$tempdir",
+    },
+    {
+        label => 'coerce object to RealDir',
+        type  => t('RealDir'),
+        input => $tempdir,
+    },
+    {
+        label => 'coerce array ref to RealDir',
+        type  => t('RealDir'),
+        input => [$tempdir],
+    },
 );
 
 for my $c (@cases) {
@@ -392,6 +448,7 @@ for my $c (@cases) {
         my $input    = $c->{input};
         my $expected = path( ref $input eq 'ARRAY' ? @{$input} : $input );
         $expected = $expected->absolute if $type->name =~ /^Abs/;
+        $expected = $expected->realpath if $type->name =~ /^Real/;
 
         my $output;
         is(
