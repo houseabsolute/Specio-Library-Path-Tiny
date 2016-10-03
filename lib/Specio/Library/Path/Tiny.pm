@@ -5,7 +5,7 @@ use warnings;
 
 our $VERSION = '0.02';
 
-use Path::Tiny;
+use Path::Tiny 0.087;
 use Specio 0.28 ();
 use Specio::Declare;
 use Specio::Library::Builtins;
