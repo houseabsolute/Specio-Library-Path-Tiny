@@ -1,5 +1,10 @@
 {{$NEXT}}
 
+- Fix code for Perl 5.8.8
+
+- Require Path::Tiny 0.087+ to ensure that tests pass.
+
+
 0.01     2016-10-02
 
 - First release upon an unsuspecting world.
