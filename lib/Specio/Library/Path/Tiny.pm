@@ -21,7 +21,11 @@ declare(
     'AbsPath',
     parent => t('Path'),
     inline => sub {
-        $_[0]->parent->inline_check( $_[1] ) . " && $_[1]->is_absolute";
+        return sprintf(
+            '( %s && %s->is_absolute )',
+            $_[0]->parent->inline_check( $_[1] ),
+            $_[1]
+        );
     },
 );
 
@@ -29,7 +33,11 @@ declare(
     'RealPath',
     parent => t('Path'),
     inline => sub {
-        $_[0]->parent->inline_check( $_[1] ) . " && $_[1]->realpath eq $_[1]";
+        return sprintf(
+            '( %s && %s->realpath eq %s )',
+            $_[0]->parent->inline_check( $_[1] ),
+            $_[1], $_[1]
+        );
     },
 );
 
@@ -37,15 +45,11 @@ declare(
     'File',
     parent => t('Path'),
     inline => sub {
-        $_[0]->parent->inline_check( $_[1] ) . " && $_[1]->is_file";
-    },
-);
-
-declare(
-    'Dir',
-    parent => t('Path'),
-    inline => sub {
-        $_[0]->parent->inline_check( $_[1] ) . " && $_[1]->is_dir";
+        return sprintf(
+            '( %s && %s->is_file )',
+            $_[0]->parent->inline_check( $_[1] ),
+            $_[1]
+        );
     },
 );
 
@@ -53,8 +57,11 @@ declare(
     'AbsFile',
     parent => t('Path'),
     inline => sub {
-        $_[0]->parent->inline_check( $_[1] )
-            . " && $_[1]->is_file && $_[1]->is_absolute";
+        return sprintf(
+            '( %s && %s->is_file && %s->is_absolute )',
+            $_[0]->parent->inline_check( $_[1] ),
+            $_[1], $_[1]
+        );
     },
 );
 
@@ -62,8 +69,23 @@ declare(
     'RealFile',
     parent => t('Path'),
     inline => sub {
-        $_[0]->parent->inline_check( $_[1] )
-            . " && $_[1]->is_file && $_[1]->realpath eq $_[1]";
+        return sprintf(
+            '( %s && %s->is_file && %s->realpath eq %s )',
+            $_[0]->parent->inline_check( $_[1] ),
+            $_[1], $_[1], $_[1]
+        );
+    },
+);
+
+declare(
+    'Dir',
+    parent => t('Path'),
+    inline => sub {
+        return sprintf(
+            '( %s && %s->is_dir )',
+            $_[0]->parent->inline_check( $_[1] ),
+            $_[1]
+        );
     },
 );
 
@@ -71,8 +93,11 @@ declare(
     'AbsDir',
     parent => t('Path'),
     inline => sub {
-        $_[0]->parent->inline_check( $_[1] )
-            . " && $_[1]->is_dir && $_[1]->is_absolute";
+        return sprintf(
+            '( %s && %s->is_dir && %s->is_absolute )',
+            $_[0]->parent->inline_check( $_[1] ),
+            $_[1], $_[1],
+        );
     },
 );
 
@@ -80,8 +105,11 @@ declare(
     'RealDir',
     parent => t('Path'),
     inline => sub {
-        $_[0]->parent->inline_check( $_[1] )
-            . " && $_[1]->is_dir && $_[1]->realpath eq $_[1]";
+        return sprintf(
+            '( %s && %s->is_dir && %s->realpath eq %s )',
+            $_[0]->parent->inline_check( $_[1] ),
+            $_[1], $_[1], $_[1]
+        );
     },
 );
 
@@ -103,19 +131,19 @@ for my $type ( map { t($_) } qw( AbsPath AbsFile AbsDir ) ) {
     coerce(
         $type,
         from   => t('Path'),
-        inline => sub {"$_[1]->absolute"},
+        inline => sub { sprintf( '%s->absolute', $_[1] ) },
     );
 
     coerce(
         $type,
         from   => t('Str'),
-        inline => sub {"Path::Tiny::path( $_[1] )->absolute"},
+        inline => sub { sprintf( 'Path::Tiny::path( %s )->absolute', $_[1] ) },
     );
 
     coerce(
         $type,
         from   => t('ArrayRef'),
-        inline => sub {"Path::Tiny::path( \@{ $_[1] } )->absolute"},
+        inline => sub { sprintf( 'Path::Tiny::path( @{ %s } )->absolute', $_[1] ) },
     );
 }
 
@@ -123,19 +151,19 @@ for my $type ( map { t($_) } qw( RealPath RealFile RealDir ) ) {
     coerce(
         $type,
         from   => t('Path'),
-        inline => sub {"$_[1]->realpath"},
+        inline => sub { sprintf( '%s->realpath', $_[1] ) },
     );
 
     coerce(
         $type,
         from   => t('Str'),
-        inline => sub {"Path::Tiny::path( $_[1] )->realpath"},
+        inline => sub { sprintf( 'Path::Tiny::path( %s )->realpath', $_[1] ) },
     );
 
     coerce(
         $type,
         from   => t('ArrayRef'),
-        inline => sub {"Path::Tiny::path( \@{ $_[1] } )->realpath"},
+        inline => sub { sprintf( 'Path::Tiny::path( @{ %s } )->realpath', $_[1] ) },
     );
 }
 
