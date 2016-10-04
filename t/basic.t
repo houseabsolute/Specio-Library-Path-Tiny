@@ -7,7 +7,7 @@ use Test::Specio qw( test_constraint describe :vars );
 
 use File::pushd qw( tempd );
 use File::Temp 0.18;
-use Path::Tiny qw( path );
+use Path::Tiny qw( path rootdir );
 use Scalar::Util qw( blessed );
 use Specio::Library::Path::Tiny;
 
@@ -84,23 +84,26 @@ my $tempfile = File::Temp->new;
 my $tempdir  = File::Temp->newdir;
 
 my $rel_path = path('foo');
-my $abs_path = path('/foo');
+my $abs_path = rootdir->child('foo');
 
 my $rel_dir = path( path($0)->parent->basename );
 
 my @abs_but_not_real_file;
 my @abs_but_not_real_dir;
 if ($can_symlink) {
-    open my $fh, '>', "$tempdir/realfile" or die $!;
-    close $fh or dir $!;
-    symlink "$tempdir/realfile" => "$tempdir/symlinkfile" or die $!;
+    my $realfile = path( $tempdir, 'realfile' );
+    $realfile->touch;
+    my $symlinkfile = path( $tempdir, 'symlinkfile' );
+    symlink $realfile => $symlinkfile or die $!;
 
-    push @abs_but_not_real_file, path("$tempdir/symlinkfile");
+    push @abs_but_not_real_file, $symlinkfile;
 
-    mkdir "$tempdir/realdir" or die $!;
-    symlink "$tempdir/realdir" => "$tempdir/symlinkdir" or die $!;
+    my $realdir = path( $tempdir, 'realdir' );
+    $realdir->mkpath;
+    my $symlinkdir = path( $tempdir, 'symlinkdir' );
+    symlink $realdir => $symlinkdir or die $!;
 
-    push @abs_but_not_real_dir, path("$tempdir/symlinkdir");
+    push @abs_but_not_real_dir, $symlinkdir;
 }
 
 my $actual_file = path($tempfile);
@@ -281,7 +284,7 @@ my @cases = (
     {
         label => 'coerce string to Path',
         type  => t('Path'),
-        input => './foo',
+        input => 'foo',
     },
     {
         label => 'coerce object to Path',
@@ -298,7 +301,7 @@ my @cases = (
     {
         label => 'coerce string to AbsPath',
         type  => t('AbsPath'),
-        input => './foo',
+        input => 'foo',
     },
     {
         label => 'coerce Path to AbsPath',
@@ -320,7 +323,7 @@ my @cases = (
     {
         label => 'coerce string to RealPath',
         type  => t('RealPath'),
-        input => './foo',
+        input => 'foo',
     },
     {
         label => 'coerce Path to RealPath',

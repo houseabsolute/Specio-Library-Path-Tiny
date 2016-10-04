@@ -1,5 +1,8 @@
 {{$NEXT}}
 
+- Updated paths used in tests to try to make Windows happy.
+
+
 0.02     2016-10-02
 
 - Fix code for Perl 5.8.8
