@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.03     2016-10-04
+
 - Updated paths used in tests to try to make Windows happy.
 
 
