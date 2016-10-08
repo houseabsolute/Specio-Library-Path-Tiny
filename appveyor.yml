@@ -8,8 +8,8 @@ install:
   - set PATH=C:\strawberry\perl\bin;C:\strawberry\perl\site\bin;C:\strawberry\c\bin;%PATH%
   - cd C:\projects\%APPVEYOR_PROJECT_NAME%
   - cpanm -n Dist::Zilla
-  - dzil authordeps --missing | cpanm -n
-  - dzil listdeps --author --missing | cpanm
+  - dzil authordeps | cpanm -n
+  - dzil listdeps --author | cpanm
 
 build_script:
   - perl -e 2
