@@ -1,5 +1,8 @@
 {{$NEXT}}
 
+- More path tweaks for tests to try to make Windows and OSX happy.
+
+
 0.03     2016-10-04
 
 - Updated paths used in tests to try to make Windows happy.

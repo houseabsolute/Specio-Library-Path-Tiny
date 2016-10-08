@@ -106,8 +106,8 @@ if ($can_symlink) {
     push @abs_but_not_real_dir, $symlinkdir;
 }
 
-my $actual_file = path($tempfile);
-my $actual_dir  = path($tempdir);
+my $actual_file = path($tempfile)->realpath;
+my $actual_dir  = path($tempdir)->realpath;
 
 test_constraint(
     t('Path'),
