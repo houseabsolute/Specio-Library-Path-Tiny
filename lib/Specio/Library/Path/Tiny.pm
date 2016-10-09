@@ -1,3 +1,4 @@
+## no critic (Modules::ProhibitExcessMainComplexity)
 package Specio::Library::Path::Tiny;
 
 use strict;
@@ -5,16 +6,50 @@ use warnings;
 
 our $VERSION = '0.04';
 
+use overload ();
 use Path::Tiny 0.087;
+use Scalar::Util qw( blessed );
 use Specio 0.28 ();
 use Specio::Declare;
 use Specio::Library::Builtins;
+use Specio::PartialDump qw( partial_dump );
 
 use parent 'Specio::Exporter';
 
+my $not_blessed = sub {
+    return blessed $_[0] ? q{} : "$_[1] is not an object";
+};
+
+my $not_path_tiny = sub {
+    return $_[0]->isa('Path::Tiny')
+        ? q{}
+        : "$_[1] is not a Path::Tiny object";
+};
+
+my $not_absolute = sub {
+    return $_[0]->is_absolute ? q{} : "$_[0] is not an absolute path";
+};
+
+my $not_real = sub {
+    return $_[0]->is_realpath ne $_[0] ? q{} : "$_[0] is not a real path";
+};
+
+my $not_file = sub {
+    return $_[0]->is_file ? q{} : "$_[0] is not a file on disk";
+};
+
+my $not_dir = sub {
+    return $_[0]->is_dir ? q{} : "$_[0] is not a dir on disk";
+};
+
 declare(
     'Path',
-    parent => object_isa_type('Path::Tiny'),
+    parent            => object_isa_type('Path::Tiny'),
+    message_generator => sub {
+        my $dump = partial_dump( $_[1] );
+        return $not_blessed->( $_[1], $dump )
+            || $not_path_tiny->( $_[1], $dump );
+    },
 );
 
 declare(
@@ -26,6 +61,13 @@ declare(
             $_[0]->parent->inline_check( $_[1] ),
             $_[1]
         );
+    },
+    message_generator => sub {
+        my $dump = partial_dump( $_[1] );
+        return
+               $not_blessed->( $_[1], $dump )
+            || $not_path_tiny->( $_[1], $dump )
+            || $not_absolute->( $_[1], $dump );
     },
 );
 
@@ -39,6 +81,13 @@ declare(
             $_[1], $_[1]
         );
     },
+    message_generator => sub {
+        my $dump = partial_dump( $_[1] );
+        return
+               $not_blessed->( $_[1], $dump )
+            || $not_path_tiny->( $_[1], $dump )
+            || $not_real->( $_[1], $dump );
+    },
 );
 
 declare(
@@ -50,6 +99,13 @@ declare(
             $_[0]->parent->inline_check( $_[1] ),
             $_[1]
         );
+    },
+    message_generator => sub {
+        my $dump = partial_dump( $_[1] );
+        return
+               $not_blessed->( $_[1], $dump )
+            || $not_path_tiny->( $_[1], $dump )
+            || $not_file->( $_[1], $dump );
     },
 );
 
@@ -63,6 +119,14 @@ declare(
             $_[1], $_[1]
         );
     },
+    message_generator => sub {
+        my $dump = partial_dump( $_[1] );
+        return
+               $not_blessed->( $_[1], $dump )
+            || $not_path_tiny->( $_[1], $dump )
+            || $not_file->( $_[1], $dump )
+            || $not_absolute->( $_[1], $dump );
+    },
 );
 
 declare(
@@ -74,6 +138,14 @@ declare(
             $_[0]->parent->inline_check( $_[1] ),
             $_[1], $_[1], $_[1]
         );
+    },
+    message_generator => sub {
+        my $dump = partial_dump( $_[1] );
+        return
+               $not_blessed->( $_[1], $dump )
+            || $not_path_tiny->( $_[1], $dump )
+            || $not_file->( $_[1], $dump )
+            || $not_real->( $_[1], $dump );
     },
 );
 
@@ -87,6 +159,13 @@ declare(
             $_[1]
         );
     },
+    message_generator => sub {
+        my $dump = partial_dump( $_[1] );
+        return
+               $not_blessed->( $_[1], $dump )
+            || $not_path_tiny->( $_[1], $dump )
+            || $not_dir->( $_[1], $dump );
+    },
 );
 
 declare(
@@ -99,6 +178,14 @@ declare(
             $_[1], $_[1],
         );
     },
+    message_generator => sub {
+        my $dump = partial_dump( $_[1] );
+        return
+               $not_blessed->( $_[1], $dump )
+            || $not_path_tiny->( $_[1], $dump )
+            || $not_dir->( $_[1], $dump )
+            || $not_absolute->( $_[1], $dump );
+    },
 );
 
 declare(
@@ -110,6 +197,14 @@ declare(
             $_[0]->parent->inline_check( $_[1] ),
             $_[1], $_[1], $_[1]
         );
+    },
+    message_generator => sub {
+        my $dump = partial_dump( $_[1] );
+        return
+               $not_blessed->( $_[1], $dump )
+            || $not_path_tiny->( $_[1], $dump )
+            || $not_dir->( $_[1], $dump )
+            || $not_real->( $_[1], $dump );
     },
 );
 

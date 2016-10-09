@@ -2,6 +2,9 @@
 
 - More path tweaks for tests to try to make Windows and OSX happy.
 
+- Added message generators for all types to produce better error messages when
+  validation fails.
+
 
 0.03     2016-10-04
 
