@@ -445,24 +445,27 @@ my @coercion_tests = (
 );
 
 for my $c (@coercion_tests) {
-    subtest $c->{label} => sub {
-        my $wd       = tempd();
-        my $type     = $c->{type};
-        my $input    = $c->{input};
-        my $expected = path( ref $input eq 'ARRAY' ? @{$input} : $input );
-        $expected = $expected->absolute if $type->name =~ /^Abs/;
-        $expected = $expected->realpath if $type->name =~ /^Real/;
+    subtest(
+        $c->{label},
+        sub {
+            my $wd       = tempd();
+            my $type     = $c->{type};
+            my $input    = $c->{input};
+            my $expected = path( ref $input eq 'ARRAY' ? @{$input} : $input );
+            $expected = $expected->absolute if $type->name =~ /^Abs/;
+            $expected = $expected->realpath if $type->name =~ /^Real/;
 
-        my $output;
-        is(
-            exception { $output = $type->coerce_value($input) },
-            undef,
-            'coerced value without dying'
-        ) or return;
+            my $output;
+            is(
+                exception { $output = $type->coerce_value($input) },
+                undef,
+                'coerced value without dying'
+            ) or return;
 
-        isa_ok( $output, 'Path::Tiny', '$output' );
-        is( $output, $expected, 'coercion returned expected value' );
-    };
+            isa_ok( $output, 'Path::Tiny', '$output' );
+            is( $output, $expected, 'coercion returned expected value' );
+        }
+    );
 }
 
 my @messages_tests = (
