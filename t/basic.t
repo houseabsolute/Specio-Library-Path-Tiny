@@ -84,7 +84,7 @@ my $tempfile = File::Temp->new;
 my $tempdir  = File::Temp->newdir;
 
 my $rel_path = path('foo');
-my $abs_path = rootdir->child('foo');
+my $abs_path = rootdir->realpath->child('foo');
 
 my $rel_dir = path( path($0)->parent->basename );
 
