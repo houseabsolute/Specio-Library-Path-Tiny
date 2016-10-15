@@ -11,6 +11,6 @@ build_script:
   - perl -e 1
 
 test_script:
-  - prove -lr t/
+  - prove -lrv t/
 
 skip_tags: true
