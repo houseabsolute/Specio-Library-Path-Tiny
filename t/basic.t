@@ -278,7 +278,7 @@ test_constraint(
     \&_describe,
 );
 
-my @cases = (
+my @coercion_tests = (
 
     # Path
     {
@@ -444,7 +444,7 @@ my @cases = (
     },
 );
 
-for my $c (@cases) {
+for my $c (@coercion_tests) {
     subtest $c->{label} => sub {
         my $wd       = tempd();
         my $type     = $c->{type};
@@ -463,6 +463,95 @@ for my $c (@cases) {
         isa_ok( $output, 'Path::Tiny', '$output' );
         is( $output, $expected, 'coercion returned expected value' );
     };
+}
+
+my @messages_tests = (
+    [
+        t('Path'),
+        42      => qr/42 is not an object/,
+        $OBJECT => qr/is not a Path::Tiny object/,
+    ],
+    [
+        t('AbsPath'),
+        42        => qr/42 is not an object/,
+        $OBJECT   => qr/is not a Path::Tiny object/,
+        $rel_path => qr/is not an absolute path/,
+    ],
+    [
+        t('RealPath'),
+        42        => qr/42 is not an object/,
+        $OBJECT   => qr/is not a Path::Tiny object/,
+        $rel_path => qr/is not a real path/,
+        (
+            @abs_but_not_real_file
+            ? ( $abs_but_not_real_file[0] => qr/is not a real path/ )
+            : ()
+        ),
+    ],
+    [
+        t('File'),
+        42          => qr/42 is not an object/,
+        $OBJECT     => qr/is not a Path::Tiny object/,
+        $actual_dir => qr/is not a file on disk/,
+    ],
+    [
+        t('AbsFile'),
+        42          => qr/42 is not an object/,
+        $OBJECT     => qr/is not a Path::Tiny object/,
+        $actual_dir => qr/is not a file on disk/,
+    ],
+    [
+        t('RealFile'),
+        42          => qr/42 is not an object/,
+        $OBJECT     => qr/is not a Path::Tiny object/,
+        $actual_dir => qr/is not a file on disk/,
+        (
+            @abs_but_not_real_file
+            ? ( $abs_but_not_real_file[0] => qr/is not a real path/ )
+            : ()
+        ),
+    ],
+    [
+        t('Dir'),
+        42           => qr/42 is not an object/,
+        $OBJECT      => qr/is not a Path::Tiny object/,
+        $actual_file => qr/is not a directory on disk/,
+    ],
+    [
+        t('AbsDir'),
+        42           => qr/42 is not an object/,
+        $OBJECT      => qr/is not a Path::Tiny object/,
+        $actual_file => qr/is not a directory on disk/,
+    ],
+    [
+        t('RealDir'),
+        42           => qr/42 is not an object/,
+        $OBJECT      => qr/is not a Path::Tiny object/,
+        $actual_file => qr/is not a directory on disk/,
+        (
+            @abs_but_not_real_dir
+            ? ( $abs_but_not_real_dir[0] => qr/is not a real path/ )
+            : ()
+        ),
+    ],
+);
+
+for my $m (@messages_tests) {
+    my $type = shift @{$m};
+
+    subtest(
+        'message for ' . $type->name . ' check failure',
+        sub {
+
+            while ( my ( $val, $expect ) = splice @{$m}, 0, 2 ) {
+                like(
+                    exception { $type->validate_or_die($val) },
+                    $expect,
+                    'value = ' . describe($val),
+                );
+            }
+        }
+    );
 }
 
 done_testing;

@@ -31,7 +31,7 @@ my $not_absolute = sub {
 };
 
 my $not_real = sub {
-    return $_[0]->realpath ne $_[0] ? q{} : "$_[0] is not a real path";
+    return $_[0]->realpath eq $_[0] ? q{} : "$_[0] is not a real path";
 };
 
 my $not_file = sub {
@@ -39,7 +39,7 @@ my $not_file = sub {
 };
 
 my $not_dir = sub {
-    return $_[0]->is_dir ? q{} : "$_[0] is not a dir on disk";
+    return $_[0]->is_dir ? q{} : "$_[0] is not a directory on disk";
 };
 
 declare(
