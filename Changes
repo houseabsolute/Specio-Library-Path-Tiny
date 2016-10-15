@@ -1,6 +1,7 @@
 {{$NEXT}}
 
-- More path tweaks for tests to try to make Windows and OSX happy.
+- More path tweaks for tests to try to make Windows and OSX happy. Tests pass
+  on Windows according to AppVeyor.
 
 - Added message generators for all types to produce better error messages when
   validation fails.
