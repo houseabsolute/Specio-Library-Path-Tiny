@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.04     2016-10-15
+
 - More path tweaks for tests to try to make Windows and OSX happy. Tests pass
   on Windows according to AppVeyor.
 
