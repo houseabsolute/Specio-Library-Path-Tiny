@@ -231,14 +231,14 @@ for my $type ( map { t($_) } qw( AbsPath AbsFile AbsDir ) ) {
 
     coerce(
         $type,
-        from => t('Str'),
+        from   => t('Str'),
         inline =>
             sub { sprintf( 'Path::Tiny::path( %s )->absolute', $_[1] ) },
     );
 
     coerce(
         $type,
-        from => t('ArrayRef'),
+        from   => t('ArrayRef'),
         inline =>
             sub { sprintf( 'Path::Tiny::path( @{ %s } )->absolute', $_[1] ) },
     );
@@ -253,14 +253,14 @@ for my $type ( map { t($_) } qw( RealPath RealFile RealDir ) ) {
 
     coerce(
         $type,
-        from => t('Str'),
+        from   => t('Str'),
         inline =>
             sub { sprintf( 'Path::Tiny::path( %s )->realpath', $_[1] ) },
     );
 
     coerce(
         $type,
-        from => t('ArrayRef'),
+        from   => t('ArrayRef'),
         inline =>
             sub { sprintf( 'Path::Tiny::path( @{ %s } )->realpath', $_[1] ) },
     );
@@ -280,9 +280,9 @@ __END__
 
 =head1 DESCRIPTION
 
-This library provides a set of L<Path::Tiny> types and coercions for
-L<Specio>. These types can be used with L<Moose>, L<Moo>,
-L<Params::ValidationCompiler>, and other modules.
+This library provides a set of L<Path::Tiny> types and coercions for L<Specio>.
+These types can be used with L<Moose>, L<Moo>, L<Params::ValidationCompiler>,
+and other modules.
 
 =head1 TYPES
 
@@ -358,3 +358,4 @@ call to C<< $path->realpath >>.
 
 The vast majority of the code in this distribution comes from David Golden's
 L<Types::Path::Tiny> distribution.
+
