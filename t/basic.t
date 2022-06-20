@@ -7,7 +7,7 @@ use Test::Specio qw( test_constraint describe :vars );
 
 use File::pushd qw( tempd );
 use File::Temp 0.18;
-use Path::Tiny qw( path rootdir );
+use Path::Tiny   qw( path rootdir );
 use Scalar::Util qw( blessed );
 use Specio::Library::Path::Tiny;
 

@@ -9,7 +9,7 @@ our $VERSION = '0.05';
 use overload ();
 use Path::Tiny 0.087;
 use Scalar::Util qw( blessed );
-use Specio 0.29 ();
+use Specio 0.29  ();
 use Specio::Declare;
 use Specio::Library::Builtins;
 use Specio::PartialDump qw( partial_dump );
