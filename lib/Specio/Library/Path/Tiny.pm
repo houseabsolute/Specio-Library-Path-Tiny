@@ -4,7 +4,7 @@ package Specio::Library::Path::Tiny;
 use strict;
 use warnings;
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 use overload ();
 use Path::Tiny 0.087;
