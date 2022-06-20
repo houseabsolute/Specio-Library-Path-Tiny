@@ -1,5 +1,7 @@
 {{$NEXT}}
 
+0.05     2022-06-20
+
 - Fixed failing tests on msys. Fixed by Paulo Custodio. PR #1.
 
 
